@@ -1,4 +1,5 @@
 from crewai import Agent
+import os
 
 # ============================================
 # CHOOSE YOUR ROLE - Change this line!
@@ -54,34 +55,11 @@ def get_role_questions(role):
     return questions.get(role, questions["DATA_SCIENTIST"])
 
 # ============================================
-# CREATE AGENTS
+# GET QUESTIONS FOR SELECTED ROLE
 # ============================================
 
 role_questions = get_role_questions(ROLE_TYPE)
 role_name = ROLE_TYPE.replace("_", " ").title()
-
-# AGENT 1: Question Generator
-question_agent = Agent(
-    role="Question Generator",
-    goal=f"Ask exactly 5-6 interview questions for the {role_name} role",
-    backstory=f"""You are an expert technical interviewer specializing in {role_name} roles.
-    You ask relevant, challenging questions that test both theoretical knowledge and practical skills.
-    Your questions should be clear, professional, and specific to {role_name} positions.""",
-    verbose=True,
-    allow_delegation=False
-)
-
-# AGENT 2: Feedback Agent
-feedback_agent = Agent(
-    role="Feedback Provider",
-    goal="Provide constructive, short feedback on candidate's answers",
-    backstory="""You are an experienced hiring manager with decades of interview experience.
-    You provide concise, helpful feedback that guides candidates to improve.
-    Your feedback is encouraging but honest, highlighting both strengths and areas for improvement.
-    Keep feedback to 1-2 sentences maximum.""",
-    verbose=True,
-    allow_delegation=False
-)
 
 def get_questions_list():
     return role_questions
